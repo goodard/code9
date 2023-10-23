@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - s3-site
-      - s3-site-using-module
+      - s3-site-using-modules
 
 jobs:
-  main-branch-job:
+  s3-site-branch-job:
     name: Terraform deploy from ${{ github.ref }}
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/s3-site'
@@ -21,7 +21,9 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: "1.5.0"
 
     - name: Terraform Initialization
       run: terraform init
@@ -32,21 +34,23 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve
 
-  s3-site-using-module-branch-job:
+  s3-site-using-modules:
     name: Terraform deploy from ${{ github.ref }}
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/s3-site-using-module'
+    if: github.ref == 'refs/heads/s3-site-using-modules'
 
     defaults:
       run:
-        working-directory: terraform/s3-site-using-module
+        working-directory: terraform/s3-site-using-modules
 
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v2
 
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: "1.5.0"
 
     - name: Terraform Initialization
       run: terraform init
