@@ -12,6 +12,7 @@ env:
 
 jobs:
   wordpress-job:
+    environment: Dev
     name: Terraform deploy from ${{ github.ref }}
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/wordpress'
